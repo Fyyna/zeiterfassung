@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titel %}{% endblock %} · Zeiterfassung</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='pico.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="container">
+    <nav>
+      <ul><li><strong>Zeiterfassung</strong></li></ul>
+      <ul>
+        <li><a href="{{ url_for('startseite') }}">Start</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="container">
+    {% for kategorie, text in get_flashed_messages(with_categories=true) %}
+      <p class="meldung {{ kategorie }}">{{ text }}</p>
+    {% endfor %}
+    {% block inhalt %}{% endblock %}
+  </main>
+</body>
+</html>

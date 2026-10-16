@@ -1,0 +1,26 @@
+# Führt bei jedem Push und jedem Pull Request alle Tests aus.
+# Ergebnis: auf GitHub im Reiter "Actions" (grüner Haken oder rotes Kreuz beim Commit).
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v5
+
+      - name: Python einrichten
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Pakete installieren
+        run: pip install -r requirements.txt
+
+      - name: Tests ausführen
+        run: pytest -v

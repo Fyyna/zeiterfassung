@@ -7,3 +7,8 @@
 --       id INTEGER PRIMARY KEY AUTOINCREMENT,
 --       ...
 --   );
+
+INSERT INTO projekt (nummer, name) VALUES
+    ('1', 'Hourly'),
+    ('2', 'Testing'),
+    ('3', 'Documentation');

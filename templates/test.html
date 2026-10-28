@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Anmelden</title>
+</head>
+<body>
+    <h1>Benutzer eingeben</h1>
+
+    <form method="POST">
+        <input type="text" name="benutzer_text" placeholder="Gib deinen Namen ein...">
+        <button type="submit">Absenden</button>
+    </form>
+
+    {% if ergebnis %}
+        <p style="color: green;">{{ ergebnis }}</p>
+    {% endif %}
+
+    {% block inhalt %}{% endblock %}
+</body>
+</html>

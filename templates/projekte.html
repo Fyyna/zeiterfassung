@@ -1,0 +1,36 @@
+{% Diese Seite extends "base.html" %}
+
+{% block titel %}Projekte{% endblock %}
+
+{% block inhalt %}
+  <h1>Projektverwaltung</h1>
+
+  <form method="post">
+    <label>
+      Projektnummer
+      <input name="nummer" placeholder="z.B. 4" required>
+    </label>
+    <label>
+      Projektname
+      <input name="name" placeholder="z.B. Support" required>
+    </label>
+    <button type="submit">Speichern</button>
+  </form>
+
+  <h2>Alle Projekte</h2>
+
+  {% if projekte %}
+    <table>
+      <thead>
+        <tr><th>Nummer</th><th>Name</th></tr>
+      </thead>
+      <tbody>
+        {% for p in projekte %}
+          <tr><td>{{ p["nummer"] }}</td><td>{{ p["name"] }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Noch keine Projekte erfasst.</p>
+  {% endif %}
+{% endblock %}

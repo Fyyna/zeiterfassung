@@ -12,12 +12,13 @@ class DB_HANDLER:
 
 
 
-    def _create_project_table(self):
+    def _create_tables(self):
         self.conn.execute("""
             CREATE TABLE IF NOT EXISTS project (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                project_name TEXT NOT NULL,
-                )
+                project_number TEXT NOT NULL UNIQUE,
+                project_name TEXT NOT NULL
+            )
         """)
         self.conn.commit()
 

@@ -46,9 +46,11 @@ class DB_HANDLER:
      """)
      self.conn.commit()
 
-    def add_worker(self,first_name: str, last_name: str, street: str, zip_code: int, ort: str, position_admin: bool):
+    # ---------- worker ----------
+    def add_worker(self, first_name, last_name, is_admin=False):
         self.conn.execute(
-            "INSERT INTO worker (first_name, last_name, street, zip_code, ort, position_admin)VALUES(?, ?, ?, ?, ?, ?)", (first_name, last_name, street,zip_code, ort, position_admin)
+            "INSERT INTO worker (first_name, last_name, is_admin) VALUES (?, ?, ?)",
+            (first_name, last_name, is_admin),
         )
         self.conn.commit()
         logger.info("Added Worker: %s", first_name last_name, street zip_code ort, position_admin)

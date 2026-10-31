@@ -55,6 +55,8 @@ class DB_HANDLER:
         self.conn.commit()
         logger.info("Added Worker: %s", first_name last_name, street zip_code ort, position_admin)
 
+    def get_all_workers(self):
+        return self.conn.execute("SELECT id, first_name, last_name, is_admin FROM worker").fetchall()
 
 
     def add_project(self,project_name: str ):

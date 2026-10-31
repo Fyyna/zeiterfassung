@@ -58,16 +58,13 @@ class DB_HANDLER:
     def get_all_workers(self):
         return self.conn.execute("SELECT id, first_name, last_name, is_admin FROM worker").fetchall()
 
-
-    def add_project(self,project_name: str ):
+    # ---------- project ----------
+    def add_project(self, project_number, project_name):
         self.conn.execute(
-                    "INSERT INTO project (project_name)VALUES(?)", (project_name)
-                )
-
-    def add_timestamp():
-        
-
-
+            "INSERT INTO project (project_number, project_name) VALUES (?, ?)",
+            (project_number, project_name),
+        )
+        self.conn.commit()
 
     def get_all_products(self):
         return self.conn.execute("SELECT id, product_name, product_price FROM products").fetchall()

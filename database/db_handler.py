@@ -66,7 +66,7 @@ class DB_HANDLER:
         )
         self.conn.commit()
 
-    def get_all_products(self):
+    def get_all_projects(self):
         return self.conn.execute("SELECT id, product_name, product_price FROM products").fetchall()
 
     def get_time(self, id: int):

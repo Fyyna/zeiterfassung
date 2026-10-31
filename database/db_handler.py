@@ -25,14 +25,11 @@ class DB_HANDLER:
 
     def _create_worker_table(self):
          self.conn.execute("""
-             CREATE TABLE IF NOT EXISTS worker (
-                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                 first_name VARCHAR(50),
-                 last_name VARCHAR(50),
-                 street VARCHAR(50),
-                 zip_code CHAR(4),
-                 ort VARCHAR(50)
-                 position_admin BOOLEAN
+            CREATE TABLE IF NOT EXISTS worker (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                first_name TEXT NOT NULL,
+                last_name TEXT NOT NULL,
+                is_admin BOOLEAN NOT NULL DEFAULT 0
                  )
          """)
          self.conn.commit()

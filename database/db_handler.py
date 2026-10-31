@@ -69,8 +69,18 @@ class DB_HANDLER:
     def get_all_projects(self):
         return self.conn.execute("SELECT id, product_name, product_price FROM products").fetchall()
 
-    def get_time(self, id: int):
-        return self.conn.execute("SELECT id, product_name, product_price FROM products WHERE id = ?", (id,)).fetchone()
+    def add_timestamp(self, worker_id, project_id, start_time, end_time=None):
+        self.conn.execute(
+            "INSERT INTO time_stamp (worker_id, project_id, start_time, end_time) VALUES (?, ?, ?, ?)",
+            (worker_id, project_id, start_time, end_time),
+        )
+        self.conn.commit()
+
+
+
+
+
+    def stamp(self, worker_id, product_price FROM products WHERE id = ?", (id,)).fetchone()
 
     def show_all_workers(self):
         for id, product_name, product_price in self.get_all_products():

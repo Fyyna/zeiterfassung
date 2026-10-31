@@ -80,11 +80,37 @@ class DB_HANDLER:
 
 
 
-    def stamp(self, worker_id, product_price FROM products WHERE id = ?", (id,)).fetchone()
+    def stamp(self, worker_id, project_id):
+        """One button: stops the running stamp or starts a new one.
+        Returns "started" or "stopped"."""
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        running = self.conn.execute(
+            "SELECT id, project_id FROM time_stamp WHERE worker_id = ? AND end_time IS NULL",
+            (worker_id,),
+        ).fetchone()
 
-    def show_all_workers(self):
-        for id, product_name, product_price in self.get_all_products():
-            print(f"{id}, {product_name}: {product_price} CHF")
+        if running is not None:
+            # end the running stamp
+            self.conn.execute(
+                "UPDATE time_stamp SET end_time = ? WHERE id = ?", (now, running[0])
+            )
+            if running[1] == project_id:
+                # same project -> just clock out
+                self.conn.commit()
+                return "stopped"
+
+        # no running stamp, or a different project -> start a new one
+        self.conn.execute(
+            "INSERT INTO time_stamp (worker_id, project_id, start_time) VALUES (?, ?, ?)",
+            (worker_id, project_id, now),
+        )
+        self.conn.commit()
+        return "started"
+
+    def get_all_timestamps(self):
+        return self.conn.execute(
+            "SELECT id, worker_id, project_id, start_time, end_time FROM time_stamp"
+        ).fetchall()
 
     def close_db_conn(self):
         self.conn.close()

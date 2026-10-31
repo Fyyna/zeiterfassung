@@ -35,15 +35,13 @@ class DB_HANDLER:
          self.conn.commit()
 
     def _create_time_stamp_table(self):
-     self.conn.execute("""
-         CREATE TABLE IF NOT EXISTS time_stamp (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            worker_id INTEGER FOREIGN KEY NOT NULL,
-            project_id INTEGER FOREIGN KEY NOT NULL,
-            begin DATETIME NOT NULL,
-            end DATETIME,
-
-
+        self.conn.execute("""
+            CREATE TABLE IF NOT EXISTS time_stamp (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                worker_id INTEGER NOT NULL REFERENCES worker(id),
+                project_id INTEGER NOT NULL REFERENCES project(id),
+                start_time TEXT NOT NULL,
+                end_time TEXT
              )
      """)
      self.conn.commit()

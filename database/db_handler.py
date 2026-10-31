@@ -1,16 +1,11 @@
 import sqlite3
-import logging
-
-logger = logging.getLogger(__name__)
+from datetime import datetime
 
 
 class DB_HANDLER:
     def __init__(self, path="time_clock.db"):
         self.conn = sqlite3.connect(path)
-        self._create_project_table()
-        self._create_worker_table()
-
-
+        self._create_tables()
 
     def _create_tables(self):
         self.conn.execute("""
@@ -20,21 +15,14 @@ class DB_HANDLER:
                 project_name TEXT NOT NULL
             )
         """)
-        self.conn.commit()
-
-
-    def _create_worker_table(self):
-         self.conn.execute("""
+        self.conn.execute("""
             CREATE TABLE IF NOT EXISTS worker (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 first_name TEXT NOT NULL,
                 last_name TEXT NOT NULL,
                 is_admin BOOLEAN NOT NULL DEFAULT 0
-                 )
-         """)
-         self.conn.commit()
-
-    def _create_time_stamp_table(self):
+            )
+        """)
         self.conn.execute("""
             CREATE TABLE IF NOT EXISTS time_stamp (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,9 +30,9 @@ class DB_HANDLER:
                 project_id INTEGER NOT NULL REFERENCES project(id),
                 start_time TEXT NOT NULL,
                 end_time TEXT
-             )
-     """)
-     self.conn.commit()
+            )
+        """)
+        self.conn.commit()
 
     # ---------- worker ----------
     def add_worker(self, first_name, last_name, is_admin=False):
@@ -53,7 +41,6 @@ class DB_HANDLER:
             (first_name, last_name, is_admin),
         )
         self.conn.commit()
-        logger.info("Added Worker: %s", first_name last_name, street zip_code ort, position_admin)
 
     def get_all_workers(self):
         return self.conn.execute("SELECT id, first_name, last_name, is_admin FROM worker").fetchall()
@@ -67,8 +54,9 @@ class DB_HANDLER:
         self.conn.commit()
 
     def get_all_projects(self):
-        return self.conn.execute("SELECT id, product_name, product_price FROM products").fetchall()
+        return self.conn.execute("SELECT id, project_number, project_name FROM project").fetchall()
 
+    # ---------- time stamp ----------
     def add_timestamp(self, worker_id, project_id, start_time, end_time=None):
         self.conn.execute(
             "INSERT INTO time_stamp (worker_id, project_id, start_time, end_time) VALUES (?, ?, ?, ?)",
@@ -114,4 +102,3 @@ class DB_HANDLER:
 
     def close_db_conn(self):
         self.conn.close()
-        

@@ -1,0 +1,46 @@
+{# Uses the layout from base.html (head, menu, flash messages) #}
+{% extends "base.html" %}
+
+{# Fills the block "titel" in base.html -> tab shows "Projekte · Zeiterfassung" #}
+{% block titel %}Projekte{% endblock %}
+
+{# Everything here is inserted into base.html at {% block inhalt %} #}
+{% block inhalt %}
+  <h1>Projektverwaltung</h1>
+
+  {# method="post" -> handled by the POST part of projects() in app.py #}
+  <form method="post">
+    <label>
+      Projektnummer
+      {# name="project_number" -> request.form["project_number"] in app.py #}
+      <input name="project_number" placeholder="z.B. 4" required>
+    </label>
+    <label>
+      Projektname
+      {# name="project_name" -> request.form["project_name"] in app.py #}
+      <input name="project_name" placeholder="z.B. Support" required>
+    </label>
+    <button type="submit">Speichern</button>
+  </form>
+
+  <h2>Alle Projekte</h2>
+
+  {# "projects" comes from render_template(..., projects=...) in app.py #}
+  {% if projects %}
+    <table>
+      <thead>
+        <tr><th>Nummer</th><th>Name</th></tr>
+      </thead>
+      <tbody>
+        {% for project in projects %}
+          <tr>
+            <td>{{ project["project_number"] }}</td>
+            <td>{{ project["project_name"] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Noch keine Projekte erfasst.</p>
+  {% endif %}
+{% endblock %}

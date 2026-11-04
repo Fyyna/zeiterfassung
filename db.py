@@ -1,16 +1,11 @@
 import sqlite3
 from datetime import datetime
 
-
 class DB_HANDLER:
     def __init__(self, path="time_clock.db"):
-        self.conn = sqlite3.connect(path, check_same_thread=False)
+        self.conn = sqlite3.connect(path)
+        self.conn.row_factory = sqlite3.Row  # rows work like dicts: row["project_name"]
         self._create_tables()
-
-    def sqlite_version(self):
-            """Gibt die SQLite-Version zurück."""
-            return self.conn.execute("SELECT sqlite_version()").fetchone()[0]
-
 
     def _create_tables(self):
         self.conn.execute("""

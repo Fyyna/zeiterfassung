@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Zeiterfassung</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        select, button { padding: 10px; font-size: 16px; margin-right: 10px; }
+        button { background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>⏱️ Zeiterfassung - Projektstart</h2>
+        <form method="POST">
+            <!-- 1. Person auswählen -->
+            <label for="worker_id">Mitarbeiter/in:</label>
+            <select name="worker_id" id="worker_id" required>
+                <option value="" disabled selected>Bitte wählen...</option>
+                {% for worker in workers %}
+                    <option value="{{ worker[0] }}">{{ worker[1] }} {{ worker[2] }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- 2. Projekt auswählen -->
+            <label for="project_id">Projekt:</label>
+            <select name="project_id" id="project_id" required>
+                <option value="" disabled selected>Bitte wählen...</option>
+                {% for project in projects %}
+                    <option value="{{ project[0] }}">{{ project[1] }} - {{ project[2] }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Start Button -->
+            <button type="submit">Start</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>📋 Aktueller Status (Übersicht)</h3>
+        <ul>
+            {% for worker in workers %}
+                <li>
+                    <strong>{{ worker[1] }} {{ worker[2] }}:</strong> 
+                    {% if worker[0] in active_status %}
+                        Eingestempelt auf Projekt <em>{{ active_status[worker[0]].project_name }}</em> seit {{ active_status[worker[0]].start_time }} Uhr.
+                    {% else %}
+                        <span style="color: gray;">Derzeit nicht eingestempelt.</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

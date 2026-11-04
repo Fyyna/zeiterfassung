@@ -1,36 +1,46 @@
+{# Uses the layout from base.html (head, menu, flash messages) #}
 {% extends "base.html" %}
 
-{% block titel %}Projects{% endblock %}
+{# Fills the block "titel" in base.html -> tab shows "Projekte · Zeiterfassung" #}
+{% block titel %}Projekte{% endblock %}
 
+{# Everything here is inserted into base.html at {% block inhalt %} #}
 {% block inhalt %}
-  <h1>Projects</h1>
+  <h1>Projektverwaltung</h1>
 
+  {# method="post" -> handled by the POST part of projects() in app.py #}
   <form method="post">
     <label>
-      Project Number
-      <input name="number" placeholder="e.g. 1" required>
+      Projektnummer
+      {# name="project_number" -> request.form["project_number"] in app.py #}
+      <input name="project_number" placeholder="z.B. 4" required>
     </label>
     <label>
-      Project Name
-      <input name="name" placeholder="e.g. Hourly" required>
+      Projektname
+      {# name="project_name" -> request.form["project_name"] in app.py #}
+      <input name="project_name" placeholder="z.B. Support" required>
     </label>
-    <button type="submit">Save</button>
+    <button type="submit">Speichern</button>
   </form>
 
-  <h2>All Projects</h2>
+  <h2>Alle Projekte</h2>
 
-  {% if projekte %}
+  {# "projects" comes from render_template(..., projects=...) in app.py #}
+  {% if projects %}
     <table>
       <thead>
-        <tr><th>Number</th><th>Name</th></tr>
+        <tr><th>Nummer</th><th>Name</th></tr>
       </thead>
       <tbody>
-        {% for p in projekte %}
-          <tr><td>{{ p["number"] }}</td><td>{{ p["name"] }}</td></tr>
+        {% for project in projects %}
+          <tr>
+            <td>{{ project["project_number"] }}</td>
+            <td>{{ project["project_name"] }}</td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
   {% else %}
-    <p>No projects have been added yet.</p>
+    <p>Noch keine Projekte erfasst.</p>
   {% endif %}
 {% endblock %}
